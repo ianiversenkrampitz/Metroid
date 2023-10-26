@@ -50,11 +50,13 @@ public class PlayerController : MonoBehaviour
                 {
                     transform.Rotate(Vector3.left * 90);
                     BallMode = true;
+                    Debug.Log("Player is ball");
                 }
                 else if (BallMode == true)
                 {
                     transform.Rotate(Vector3.left * -90);
                     BallMode = false;
+                    Debug.Log("Player isn't ball");
                 }
             }
         }
@@ -79,12 +81,14 @@ public class PlayerController : MonoBehaviour
         {
             HasBall = true;
             other.gameObject.SetActive(false);
+            Debug.Log("Player gained Morph Ball ability.");
         }
         //gives player ability when colliding with boots powerup
         if (other.gameObject.tag == "Boots")
         {
             HasBoots = true;
             other.gameObject.SetActive(false);
+            Debug.Log("Player gained High Jump ability.");
         }
         //kills player if health is zero
         if (playerHealth <= 0)
@@ -119,8 +123,11 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Player is not touching ground");
         }
     }
+    /// <summary>
+    /// kills player
+    /// </summary>
     private void Die()
     {
-        
+        Debug.Log("Player dies.");
     }
 }
