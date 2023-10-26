@@ -158,6 +158,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 10
   jumpForce: 2
+  playerHealth: 0
+  HasBall: 0
 --- !u!136 &107846684
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -4,13 +4,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 //Iversen-Krampitz, Ian 
 //10/24/2023
-//Controls the player. 
+//Controls the player and collision. 
 
 public class PlayerController : MonoBehaviour
 {
     public float speed = 10f;
     public float jumpForce = 2f;
     private Rigidbody rigidbodyRef;
+    public int playerHealth = 99;
+    private bool BallMode = false;
+    public bool HasBall = false;
 
     // Start is called before the first frame update
     void Start()
@@ -34,11 +37,43 @@ public class PlayerController : MonoBehaviour
         {
             HandleJump();
         }
+        if (HasBall == true)
+        {
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                if (BallMode == false)
+                {
+                    transform.Rotate(Vector3.left * 90);
+                    BallMode = true;
+                }
+                else if (BallMode == true)
+                {
+                    transform.Rotate(Vector3.left * -90);
+                    BallMode = false;
+                }
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.gameObject.tag == "Enemy")
+        {
+            playerHealth -= 15; 
+            if (playerHealth <= 0)
+            {
+                Die();
+            }
+        }
+        if (other.gameObject.tag == "HardEnemy")
+        {
+            playerHealth -= 35;
+        }
+        if (other.gameObject.tag == "Ball")
+        {
+            HasBall = true;
+            other.gameObject.SetActive(false);
+        }
     }
     private void HandleJump()
     {
@@ -54,5 +89,9 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Player is not touching ground");
         }
+    }
+    private void Die()
+    {
+        
     }
 }
