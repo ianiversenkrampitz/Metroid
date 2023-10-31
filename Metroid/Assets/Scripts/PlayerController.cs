@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public float jumpForce = 10f;
     private Rigidbody rigidbodyRef;
     public int playerHealth = 99;
+    public int maxHealth = 99;
     private bool BallMode = false;
     public bool HasBall = false;
     public bool HasBoots = false;
@@ -61,21 +62,35 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
         //subtracts health when hitting enemy
         if (other.gameObject.tag == "Enemy")
         {
             Debug.Log("Player collided with enemy.");
-            playerHealth -= 15; 
+            playerHealth -= 15;
+            //kills player if health is zero
+            if (playerHealth <= 0)
+            {
+                playerHealth = 0;
+                Die();
+            }
         }
         //subtracts health when hitting hard enemy
         if (other.gameObject.tag == "HardEnemy")
         {
             Debug.Log("Player collided with hard enemy.");
             playerHealth -= 35;
+            //kills player if health is zero
+            if (playerHealth <= 0)
+            {
+                playerHealth = 0;
+                Die();
+            }
         }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
         //gives player ability when colliding with ball powerup
         if (other.gameObject.tag == "Ball")
         {
@@ -90,10 +105,35 @@ public class PlayerController : MonoBehaviour
             other.gameObject.SetActive(false);
             Debug.Log("Player gained High Jump ability.");
         }
-        //kills player if health is zero
-        if (playerHealth <= 0)
+        //gives player +100 max health 
+        if(other.gameObject.tag == "Etank")
         {
-            Die();
+            maxHealth += 100;
+            playerHealth += 100;
+            other.gameObject.SetActive(false);
+        }
+        //gives player 15 health from health pack
+        if (other.gameObject.tag == "Health")
+        {
+            //checks if player picked up E tank
+            if (maxHealth == 199)
+            {
+                playerHealth += 15;
+                //sets health to 199 if it goes over max health 
+                if (playerHealth >= 199)
+                {
+                    playerHealth = 199;
+                }
+            }
+            else if (maxHealth == 99)
+            {
+                playerHealth += 15;
+                //sets health to 199 if it goes over max health
+                if (playerHealth >= 99)
+                {
+                    playerHealth = 99;
+                }
+            }     
         }
     }
     /// <summary>
@@ -129,5 +169,6 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
         Debug.Log("Player dies.");
+        //SceneManager.LoadScene(Scene2);
     }
 }
