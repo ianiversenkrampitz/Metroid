@@ -17,6 +17,10 @@ public class PlayerController : MonoBehaviour
     public bool HasBall = false;
     public bool HasBoots = false;
     public bool HasTank = false;
+    public GameObject Bullet;
+    public GameObject Missile;
+    public bool hasMissiles = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -135,6 +139,37 @@ public class PlayerController : MonoBehaviour
                 }
             }     
         }
+    }
+    /// <summary>
+    /// shoots bullets right of the player
+    /// </summary>
+    private void ShootBulletRight()
+    {
+        if (BallMode == false)
+        {
+            if (hasMissiles == false)
+            {
+                if (Input.GetKeyDown(KeyCode.LeftShift))
+                {
+                    GameObject bullet = Instantiate(Bullet, transform.position, transform.rotation);
+                    bullet.GetComponent<EnemyBullet>().goingRight = true;
+                }
+            }
+            if (hasMissiles == true)
+            {
+                if (Input.GetKeyDown(KeyCode.LeftShift))
+                {
+
+                }
+            }
+        }   
+    }
+    /// <summary>
+    /// shoots bullets left of the player
+    /// </summary>
+    private void ShootBulletLeft()
+    {
+
     }
     /// <summary>
     /// makes player jump

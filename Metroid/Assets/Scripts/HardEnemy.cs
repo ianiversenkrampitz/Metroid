@@ -1,6 +1,10 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+//Iversen-Krampitz, Ian 
+//10/31/2023
+//Controls the hard enemy. 
 
 public class HardEnemy : MonoBehaviour
 {
@@ -11,12 +15,7 @@ public class HardEnemy : MonoBehaviour
     private bool movingRight = true;
     public float playerX;
     public GameObject Player;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public int hardEnemyHealth = 10;
 
     // Update is called once per frame
     void Update()
@@ -40,6 +39,29 @@ public class HardEnemy : MonoBehaviour
         if (movingRight == false)
         {
             transform.position += Vector3.left * speed * Time.deltaTime;
+        }
+    }
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "PlayerBullet")
+        {
+            hardEnemyHealth -= 1;
+            other.gameObject.SetActive(false);
+        }
+        if (hardEnemyHealth <= 0)
+        {
+            other.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+        }
+        if (other.gameObject.tag == "PlayerMissile")
+        {
+            hardEnemyHealth -= 5;
+            other.gameObject.SetActive(false);
+        }
+        if (hardEnemyHealth <= 0)
+        {
+            other.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 }

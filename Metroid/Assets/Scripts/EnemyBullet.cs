@@ -5,7 +5,7 @@ using UnityEngine;
 //10/20/2023
 //Controls the bullet. 
 
-public class Bullet : MonoBehaviour
+public class EnemyBullet : MonoBehaviour
 {
     public float speed;
     public bool goingRight;

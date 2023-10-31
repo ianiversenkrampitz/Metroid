@@ -10,6 +10,8 @@ TagManager:
   - Enemy
   - HardEnemy
   - Health
+  - PlayerBullet
+  - PlayerMissile
   layers:
   - Default
   - TransparentFX

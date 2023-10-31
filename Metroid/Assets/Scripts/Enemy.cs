@@ -12,6 +12,7 @@ public class Enemies : MonoBehaviour
     public float speed = 3;
     private float startingX;
     private bool movingRight = true;
+    public int enemyHealth = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -46,6 +47,29 @@ public class Enemies : MonoBehaviour
             {
                 movingRight = true;
             }
+        }
+    }
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "PlayerBullet")
+        {
+            enemyHealth -= 1;
+            other.gameObject.SetActive(false);
+        }
+        if (enemyHealth <= 0)
+        {
+            other.gameObject.SetActive(false);
+            gameObject.SetActive(false);
+        }
+        if (other.gameObject.tag == "PlayerMissile")
+        {
+            enemyHealth -= 5;
+            other.gameObject.SetActive(false);
+        }
+        if (enemyHealth <= 0)
+        {
+            other.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 }
