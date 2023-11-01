@@ -5,7 +5,7 @@ using UnityEngine;
 //10/26/2023
 //controls normal enemy movement. 
 
-public class Enemies : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public float travelDistanceRight = 0;
     public float travelDistanceLeft = 0;
@@ -51,25 +51,35 @@ public class Enemies : MonoBehaviour
     }
     private void OnCollisionEnter(Collision other)
     {
+        //colliding with bullets
         if (other.gameObject.tag == "PlayerBullet")
         {
+            //subtracts health 
             enemyHealth -= 1;
+            Debug.Log("Enemy took damage.");
             other.gameObject.SetActive(false);
+            //if health is zero or less set enemy inactive
+            if (enemyHealth <= 0)
+            {
+                other.gameObject.SetActive(false);
+                gameObject.SetActive(false);
+                Debug.Log("Enemy died");
+            }
         }
-        if (enemyHealth <= 0)
-        {
-            other.gameObject.SetActive(false);
-            gameObject.SetActive(false);
-        }
+        //colliding with missiles 
         if (other.gameObject.tag == "PlayerMissile")
         {
+            //subtracts health 
             enemyHealth -= 5;
             other.gameObject.SetActive(false);
-        }
-        if (enemyHealth <= 0)
-        {
-            other.gameObject.SetActive(false);
-            gameObject.SetActive(false);
+            Debug.Log("Enemy took damage.");
+            //if health is zero or less set enemy inactive
+            if (enemyHealth <= 0)
+            {
+                other.gameObject.SetActive(false);
+                gameObject.SetActive(false);
+                Debug.Log("Enemy died");
+            }
         }
     }
 }

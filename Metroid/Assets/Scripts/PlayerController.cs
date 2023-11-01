@@ -11,8 +11,8 @@ public class PlayerController : MonoBehaviour
     public float speed = 10f;
     public float jumpForce = 10f;
     private Rigidbody rigidbodyRef;
-    public int playerHealth = 99;
-    public int maxHealth = 99;
+    public float playerHealth = 99;
+    public float maxHealth = 99;
     private bool BallMode = false;
     public bool HasBall = false;
     public bool HasBoots = false;
@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public GameObject Bullet;
     public GameObject Missile;
     public bool hasMissiles = false;
+    public bool lookingRight = true;
 
     // Start is called before the first frame update
     void Start()
@@ -35,16 +36,21 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             transform.position += Vector3.right * speed * Time.deltaTime;
+            lookingRight = true;
         }
         //move left 
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             transform.position += Vector3.left * speed * Time.deltaTime;
+            lookingRight = false;
         }
-        //jumps
-        if (Input.GetKeyDown(KeyCode.Space))
+        //jumps if ball isn't in use
+        if (BallMode == false)
         {
-            HandleJump();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                HandleJump();
+            }
         }
         //crouches into ball 
         if (HasBall == true)
@@ -59,10 +65,30 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (BallMode == true)
                 {
-                    transform.Rotate(Vector3.left * -90);
-                    BallMode = false;
-                    Debug.Log("Player isn't ball");
+                    //checks if room 
+                    RaycastHit hit;
+                    if (!Physics.Raycast(transform.position, Vector3.up, out hit, 1.01f))
+                    {
+                        //leaves ball mode if theres enough room 
+                        transform.Rotate(Vector3.left * -90);
+                        BallMode = false;
+                        Debug.Log("Player isn't ball");
+                    }
                 }
+            }
+        }
+        //handles shooting 
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            //shoots if facing left
+            if (lookingRight == true)
+            {
+                ShootBulletRight();
+            }
+            //shoots if facing right 
+            else if (lookingRight == false)
+            {
+                ShootBulletLeft();
             }
         }
     }
@@ -115,6 +141,14 @@ public class PlayerController : MonoBehaviour
             maxHealth += 100;
             playerHealth += 100;
             other.gameObject.SetActive(false);
+            Debug.Log("Player gained E tank.");
+        }
+        //gives player missiles 
+        if (other.gameObject.tag == "Missiles")
+        {
+            hasMissiles = true;
+            other.gameObject.SetActive(false);
+            Debug.Log("Player gained missiles.");
         }
         //gives player 15 health from health pack
         if (other.gameObject.tag == "Health")
@@ -137,7 +171,9 @@ public class PlayerController : MonoBehaviour
                 {
                     playerHealth = 99;
                 }
-            }     
+            }
+            other.gameObject.SetActive(false);
+            Debug.Log("Player receives 15 health.");
         }
     }
     /// <summary>
@@ -145,21 +181,22 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void ShootBulletRight()
     {
+        //allows to shoot if not in ball mode
         if (BallMode == false)
         {
+            //shoots normal bullets if player doesnt have missiles
             if (hasMissiles == false)
             {
-                if (Input.GetKeyDown(KeyCode.LeftShift))
-                {
-                    GameObject bullet = Instantiate(Bullet, transform.position, transform.rotation);
-                    bullet.GetComponent<EnemyBullet>().goingRight = true;
-                }
+                GameObject bullet = Instantiate(Bullet, transform.position, transform.rotation);
+                bullet.GetComponent<Bullets>().goingRight = true;
             }
+            //shoots missiles if the player has them 
             if (hasMissiles == true)
             {
                 if (Input.GetKeyDown(KeyCode.LeftShift))
                 {
-
+                    GameObject missile = Instantiate(Missile, transform.position, transform.rotation);
+                    missile.GetComponent<Bullets>().goingRight = true;
                 }
             }
         }   
@@ -169,7 +206,22 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void ShootBulletLeft()
     {
-
+        if (BallMode == false)
+        {
+            if (hasMissiles == false)
+            { 
+                GameObject bullet = Instantiate(Bullet, transform.position, transform.rotation);
+                bullet.GetComponent<Bullets>().goingRight = false;
+            }
+            if (hasMissiles == true)
+            {
+                if (Input.GetKeyDown(KeyCode.LeftShift))
+                {
+                    GameObject missile = Instantiate(Missile, transform.position, transform.rotation);
+                    missile.GetComponent<Bullets>().goingRight = false;
+                }
+            }
+        }
     }
     /// <summary>
     /// makes player jump
@@ -204,6 +256,6 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
         Debug.Log("Player dies.");
-        //SceneManager.LoadScene(Scene2);
+        gameObject.SetActive(false);
     }
 }

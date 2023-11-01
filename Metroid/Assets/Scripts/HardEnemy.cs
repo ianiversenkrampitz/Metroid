@@ -11,7 +11,7 @@ public class HardEnemy : MonoBehaviour
     public float travelDistanceRight = 0;
     public float travelDistanceLeft = 0;
     public float speed = 3;
-    private float startingX;
+    public float startingX;
     private bool movingRight = true;
     public float playerX;
     public GameObject Player;
@@ -43,25 +43,35 @@ public class HardEnemy : MonoBehaviour
     }
     private void OnCollisionEnter(Collision other)
     {
+        //colliding with bullets
         if (other.gameObject.tag == "PlayerBullet")
         {
+            //subtracts health 
             hardEnemyHealth -= 1;
+            Debug.Log("Enemy took damage.");
             other.gameObject.SetActive(false);
+            //if health is zero or less set enemy inactive
+            if (hardEnemyHealth <= 0)
+            {
+                other.gameObject.SetActive(false);
+                gameObject.SetActive(false);
+                Debug.Log("Enemy died");
+            }
         }
-        if (hardEnemyHealth <= 0)
-        {
-            other.gameObject.SetActive(false);
-            gameObject.SetActive(false);
-        }
+        //colliding with missiles 
         if (other.gameObject.tag == "PlayerMissile")
         {
+            //subtracts health 
             hardEnemyHealth -= 5;
             other.gameObject.SetActive(false);
-        }
-        if (hardEnemyHealth <= 0)
-        {
-            other.gameObject.SetActive(false);
-            gameObject.SetActive(false);
+            Debug.Log("Enemy took damage.");
+            //if health is zero or less set enemy inactive
+            if (hardEnemyHealth <= 0)
+            {
+                other.gameObject.SetActive(false);
+                gameObject.SetActive(false);
+                Debug.Log("Enemy died");
+            }
         }
     }
 }

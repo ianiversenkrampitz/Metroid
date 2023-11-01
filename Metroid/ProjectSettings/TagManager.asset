@@ -12,6 +12,7 @@ TagManager:
   - Health
   - PlayerBullet
   - PlayerMissile
+  - Missiles
   layers:
   - Default
   - TransparentFX

@@ -8,9 +8,9 @@ using UnityEngine;
 
 public class Bullets : MonoBehaviour
 {
-    public GameObject Player;
     public float bulletSpeed;
     public bool goingRight;
+
     // Start is called before the first frame update
     void Start()
     {
