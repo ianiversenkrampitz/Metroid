@@ -181,6 +181,24 @@ public class PlayerController : MonoBehaviour
             other.gameObject.SetActive(false);
             Debug.Log("Player receives 15 health.");
         }
+        //hurts player with enemy bullets 
+        if (other.gameObject.tag == "EnemyBullet")
+        {
+            if (takesDamage == true)
+            {
+                Debug.Log("Player collided with bullet.");
+                playerHealth -= 15;
+                //destroys bullet 
+                other.gameObject.SetActive(false);
+                StartCoroutine(SetInvincible());
+                //kills player if health is zero
+                if (playerHealth <= 0)
+                {
+                    playerHealth = 0;
+                    Die();
+                }
+            }
+        }
     }
     /// <summary>
     /// shoots bullets right of the player
