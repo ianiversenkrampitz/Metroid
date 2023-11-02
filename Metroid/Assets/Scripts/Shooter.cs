@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Iversen-Krampitz, Ian 
+//11/02/2023
+//controls the shooter enemy. 
 public class Shooter : MonoBehaviour
 {
     public GameObject bullets;

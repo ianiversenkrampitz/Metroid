@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 //Iversen-Krampitz, Ian 
-//10/24/2023
+//11/02/2023
 //Controls the player and collision. 
 
 public class PlayerController : MonoBehaviour
