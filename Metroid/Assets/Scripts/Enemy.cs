@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         //colliding with bullets
         if (other.gameObject.tag == "PlayerBullet")

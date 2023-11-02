@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public GameObject Missile;
     public bool hasMissiles = false;
     public bool lookingRight = true;
+    private bool takesDamage = true;
 
     // Start is called before the first frame update
     void Start()
@@ -65,7 +66,7 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (BallMode == true)
                 {
-                    //checks if room 
+                    //checks if theres room 
                     RaycastHit hit;
                     if (!Physics.Raycast(transform.position, Vector3.up, out hit, 1.01f))
                     {
@@ -94,28 +95,33 @@ public class PlayerController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision other)
     {
-        //subtracts health when hitting enemy
-        if (other.gameObject.tag == "Enemy")
+        if (takesDamage == true)
         {
-            Debug.Log("Player collided with enemy.");
-            playerHealth -= 15;
-            //kills player if health is zero
-            if (playerHealth <= 0)
+            //subtracts health when hitting enemy
+            if (other.gameObject.tag == "Enemy")
             {
-                playerHealth = 0;
-                Die();
+                Debug.Log("Player collided with enemy.");
+                playerHealth -= 15;
+                StartCoroutine(SetInvincible());
+                //kills player if health is zero
+                if (playerHealth <= 0)
+                {
+                    playerHealth = 0;
+                    Die();
+                }  
             }
-        }
-        //subtracts health when hitting hard enemy
-        if (other.gameObject.tag == "HardEnemy")
-        {
-            Debug.Log("Player collided with hard enemy.");
-            playerHealth -= 35;
-            //kills player if health is zero
-            if (playerHealth <= 0)
+            //subtracts health when hitting hard enemy
+            if (other.gameObject.tag == "HardEnemy")
             {
-                playerHealth = 0;
-                Die();
+                Debug.Log("Player collided with hard enemy.");
+                playerHealth -= 35;
+                StartCoroutine(SetInvincible());
+                //kills player if health is zero
+                if (playerHealth <= 0)
+                {
+                    playerHealth = 0;
+                    Die();
+                }
             }
         }
     }
@@ -187,13 +193,13 @@ public class PlayerController : MonoBehaviour
             //shoots normal bullets if player doesnt have missiles
             if (hasMissiles == false)
             {
-                GameObject bullet = Instantiate(Bullet, transform.position, transform.rotation);
+                GameObject bullet = Instantiate(Bullet, transform.position, Bullet.transform.rotation);
                 bullet.GetComponent<Bullets>().goingRight = true;
             }
             //shoots missiles if the player has them 
             if (hasMissiles == true)
             {
-                GameObject missile = Instantiate(Missile, transform.position, transform.rotation);
+                GameObject missile = Instantiate(Missile, transform.position, Missile.transform.rotation);
                 missile.GetComponent<Bullets>().goingRight = true;
             }
         }   
@@ -209,13 +215,13 @@ public class PlayerController : MonoBehaviour
             //shoots normal bullets if player doesnt have missiles
             if (hasMissiles == false)
             { 
-                GameObject bullet = Instantiate(Bullet, transform.position, transform.rotation);
+                GameObject bullet = Instantiate(Bullet, transform.position, Bullet.transform.rotation);
                 bullet.GetComponent<Bullets>().goingRight = false;
             }
             //shoots missiles if the player has them 
             if (hasMissiles == true)
             {
-                GameObject missile = Instantiate(Missile, transform.position, transform.rotation);
+                GameObject missile = Instantiate(Missile, transform.position, Missile.transform.rotation);
                 missile.GetComponent<Bullets>().goingRight = false;
             }
         }
@@ -254,5 +260,11 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Player dies.");
         gameObject.SetActive(false);
+    }
+    IEnumerator SetInvincible()
+    {
+        takesDamage = false;
+        yield return new WaitForSeconds(3);
+        takesDamage = true;
     }
 }
