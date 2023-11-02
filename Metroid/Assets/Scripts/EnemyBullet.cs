@@ -8,29 +8,20 @@ using UnityEngine;
 public class EnemyBullet : MonoBehaviour
 {
     public float speed;
-    public bool goingRight;
 
     // Start is called before the first frame update
     void Start()
     {
-        //starts coroutine when object is instantiated into scene
         StartCoroutine(DespawnDelay());
     }
 
     // Update is called once per frame
     void Update()
     {
-        //if going right is true, go right 
-        if (goingRight)
-        {
-            transform.position += Vector3.right * speed * Time.deltaTime;
-        }
-        //if going right is false, go left 
-        else
-        {
-            transform.position += Vector3.left * speed * Time.deltaTime;
-        }
+        //makes bullet go up 
+        transform.position += Vector3.up * speed * Time.deltaTime;
     }
+
     /// <summary>
     /// wait three seconds then destroy self 
     /// </summary>
