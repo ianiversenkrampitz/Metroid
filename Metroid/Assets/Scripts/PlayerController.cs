@@ -193,11 +193,8 @@ public class PlayerController : MonoBehaviour
             //shoots missiles if the player has them 
             if (hasMissiles == true)
             {
-                if (Input.GetKeyDown(KeyCode.LeftShift))
-                {
-                    GameObject missile = Instantiate(Missile, transform.position, transform.rotation);
-                    missile.GetComponent<Bullets>().goingRight = true;
-                }
+                GameObject missile = Instantiate(Missile, transform.position, transform.rotation);
+                missile.GetComponent<Bullets>().goingRight = true;
             }
         }   
     }
@@ -206,20 +203,20 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void ShootBulletLeft()
     {
+        //allows to shoot if not in ball mode
         if (BallMode == false)
         {
+            //shoots normal bullets if player doesnt have missiles
             if (hasMissiles == false)
             { 
                 GameObject bullet = Instantiate(Bullet, transform.position, transform.rotation);
                 bullet.GetComponent<Bullets>().goingRight = false;
             }
+            //shoots missiles if the player has them 
             if (hasMissiles == true)
             {
-                if (Input.GetKeyDown(KeyCode.LeftShift))
-                {
-                    GameObject missile = Instantiate(Missile, transform.position, transform.rotation);
-                    missile.GetComponent<Bullets>().goingRight = false;
-                }
+                GameObject missile = Instantiate(Missile, transform.position, transform.rotation);
+                missile.GetComponent<Bullets>().goingRight = false;
             }
         }
     }
