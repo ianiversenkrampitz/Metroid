@@ -11,7 +11,7 @@ public class Shooter : MonoBehaviour
     public float travelDistanceRight = 0;
     public float travelDistanceLeft = 0;
     public float speed = 3;
-    private float startingX;
+    public float startingX;
     private bool movingRight = true;
     public int enemyHealth = 3;
 
