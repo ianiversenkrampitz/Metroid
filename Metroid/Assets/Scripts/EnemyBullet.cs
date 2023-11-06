@@ -28,7 +28,7 @@ public class EnemyBullet : MonoBehaviour
     /// <returns></returns>
     IEnumerator DespawnDelay()
     {
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(7);
         Destroy(this.gameObject);
     }
 }
