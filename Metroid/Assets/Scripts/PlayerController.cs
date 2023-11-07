@@ -167,6 +167,11 @@ public class PlayerController : MonoBehaviour
             other.gameObject.SetActive(false);
             Debug.Log("Player gained missiles.");
         }
+        if (other.gameObject.tag == "Portal")
+        {
+            //teleports the player to next portal's position
+            transform.position = other.gameObject.GetComponent<Portal>().teleportPoint.transform.position;
+        }
         //gives player 15 health from health pack
         if (other.gameObject.tag == "Health")
         {
@@ -302,6 +307,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator SetInvincible()
     {
         takesDamage = false;
+        StartCoroutine(Blink());
         yield return new WaitForSeconds(3);
         takesDamage = true;
     }
@@ -310,5 +316,21 @@ public class PlayerController : MonoBehaviour
         canShoot = false;
         yield return new WaitForSeconds(.2f);
         canShoot = true;
+    }
+    IEnumerator Blink()
+    {
+        for (int index = 0; index < 30; index++)
+        {
+            if (index % 2 == 0)
+            {
+                GetComponent<MeshRenderer>().enabled = false;
+            }
+            else
+            {
+                GetComponent<MeshRenderer>().enabled = true;
+            }
+            yield return new WaitForSeconds(.1f);
+        }
+        GetComponent<MeshRenderer>().enabled = true;
     }
 }
