@@ -14,6 +14,7 @@ TagManager:
   - PlayerMissile
   - Missiles
   - EnemyBullet
+  - Portal
   layers:
   - Default
   - TransparentFX
