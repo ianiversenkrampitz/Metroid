@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 //Iversen-Krampitz, Ian 
 //11/02/2023
 //Controls the player and collision. 
@@ -19,15 +20,20 @@ public class PlayerController : MonoBehaviour
     public bool HasTank = false;
     public GameObject Bullet;
     public GameObject Missile;
+    public GameObject GameOverText;
+    public GameObject Explosions;
     public bool hasMissiles = false;
     public bool lookingRight = true;
     private bool takesDamage = true;
-
+    private bool canShoot = true;
+    
     // Start is called before the first frame update
     void Start()
     {
         //gets reference for rigidbody
         rigidbodyRef = GetComponent<Rigidbody>();
+        //sets game over text to inactive 
+        GameOverText.SetActive(false);
     }
 
     // Update is called once per frame
@@ -78,20 +84,25 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        //handles shooting 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (canShoot == true)
         {
-            //shoots if facing left
-            if (lookingRight == true)
+            //handles shooting 
+            if (Input.GetKeyDown(KeyCode.LeftShift))
             {
-                ShootBulletRight();
+                //shoots if facing left
+                if (lookingRight == true)
+                {
+                    ShootBulletRight();
+                    StartCoroutine(ShootDelay());
+                }
+                //shoots if facing right 
+                else if (lookingRight == false)
+                {
+                    ShootBulletLeft();
+                    StartCoroutine(ShootDelay());
+                }
             }
-            //shoots if facing right 
-            else if (lookingRight == false)
-            {
-                ShootBulletLeft();
-            }
-        }
+        }   
     }
     private void OnCollisionEnter(Collision other)
     {
@@ -278,11 +289,25 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Player dies.");
         gameObject.SetActive(false);
+        GameObject explosion1 = Instantiate(Explosions, transform.position, Random.rotation);
+        GameObject explosion2 = Instantiate(Explosions, transform.position, Random.rotation);
+        GameObject explosion3 = Instantiate(Explosions, transform.position, Random.rotation);
+        GameObject explosion4 = Instantiate(Explosions, transform.position, Random.rotation);
+        GameObject explosion5 = Instantiate(Explosions, transform.position, Random.rotation);
+        GameObject explosion6 = Instantiate(Explosions, transform.position, Random.rotation);
+
+        GameOverText.SetActive(true);
     }
     IEnumerator SetInvincible()
     {
         takesDamage = false;
         yield return new WaitForSeconds(3);
         takesDamage = true;
+    }
+    IEnumerator ShootDelay()
+    {
+        canShoot = false;
+        yield return new WaitForSeconds(.2f);
+        canShoot = true;
     }
 }
