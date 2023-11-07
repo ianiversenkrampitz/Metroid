@@ -283,12 +283,13 @@ public class PlayerController : MonoBehaviour
         }
     }
     /// <summary>
-    /// kills player
+    /// kills player and makes explosions
     /// </summary>
     private void Die()
     {
         Debug.Log("Player dies.");
         gameObject.SetActive(false);
+        //makes explosions
         GameObject explosion1 = Instantiate(Explosions, transform.position, Random.rotation);
         GameObject explosion2 = Instantiate(Explosions, transform.position, Random.rotation);
         GameObject explosion3 = Instantiate(Explosions, transform.position, Random.rotation);
