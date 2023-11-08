@@ -295,12 +295,12 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Player dies.");
         gameObject.SetActive(false);
         //makes explosions
-        GameObject explosion1 = Instantiate(Explosions, transform.position, Random.rotation);
-        GameObject explosion2 = Instantiate(Explosions, transform.position, Random.rotation);
-        GameObject explosion3 = Instantiate(Explosions, transform.position, Random.rotation);
-        GameObject explosion4 = Instantiate(Explosions, transform.position, Random.rotation);
-        GameObject explosion5 = Instantiate(Explosions, transform.position, Random.rotation);
-        GameObject explosion6 = Instantiate(Explosions, transform.position, Random.rotation);
+        Instantiate(Explosions, transform.position, Random.rotation);
+        Instantiate(Explosions, transform.position, Random.rotation);
+        Instantiate(Explosions, transform.position, Random.rotation);
+        Instantiate(Explosions, transform.position, Random.rotation);
+        Instantiate(Explosions, transform.position, Random.rotation);
+        Instantiate(Explosions, transform.position, Random.rotation);
 
         GameOverText.SetActive(true);
     }

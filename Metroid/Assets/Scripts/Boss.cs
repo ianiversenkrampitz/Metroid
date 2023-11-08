@@ -11,6 +11,8 @@ public class Boss : MonoBehaviour
     public GameObject Laser;
     public GameObject LaserSpawner;
     public GameObject Explosions;
+    public GameObject LevelEnd;
+    public GameObject EndPortal;
     public float spawnRate = 1;
     public float travelDistanceRight = 0;
     public float travelDistanceLeft = 0;
@@ -18,6 +20,7 @@ public class Boss : MonoBehaviour
     public float startingX;
     private bool movingRight = true;
     public int enemyHealth = 3;
+    public bool alive = true;
 
     // Start is called before the first frame update
     void Start()
@@ -67,21 +70,7 @@ public class Boss : MonoBehaviour
             {
                 //destroys boss and makes explosion effect
                 other.gameObject.SetActive(false);
-                GameObject explosion1 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion2 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion3 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion4 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion5 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion6 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion7 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion8 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion9 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion10 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                Destroy(gameObject);
-                Destroy(LaserSpawner);
-                Debug.Log("Boss died");
-                //delays before moving to end screen
-                StartCoroutine(EndDelay());
+                Die();
             }
         }
         //colliding with missiles 
@@ -96,37 +85,38 @@ public class Boss : MonoBehaviour
             {
                 //destroys boss and makes explosion effect
                 other.gameObject.SetActive(false);
-                GameObject explosion1 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion2 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion3 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion4 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion5 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion6 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion7 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion8 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion9 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                GameObject explosion10 = Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
-                Destroy(gameObject);
-                Destroy(LaserSpawner);
-                Debug.Log("Boss died");
-                //delays before moving to end screen
-                StartCoroutine(EndDelay());
+                Die();
             }
         }
     }
-    //fires lasers
+    /// <summary>
+    /// fires lasers 
+    /// </summary>
     private void ShootLaser()
     {
         GameObject laserInstance = Instantiate(Laser, transform.position, Laser.transform.rotation);
     }
     /// <summary>
-    /// lets you see the boss die before going to end screen
+    /// kills boss 
     /// </summary>
-    IEnumerator EndDelay()
+    private void Die()
     {
-        Debug.Log("waiting to end");
-        yield return new WaitForSeconds(5f);
-        Debug.Log("game ended.");
-        SceneManager.LoadScene("EndScreen");
-    }    
+        //destroys boss and makes explosion effect
+        Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
+        Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
+        Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
+        Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
+        Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
+        Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
+        Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
+        Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
+        Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
+        Instantiate(Explosions, LaserSpawner.transform.position, Random.rotation);
+        gameObject.SetActive(false);
+        Destroy(LaserSpawner);
+        Debug.Log("Boss died");
+        alive = false;
+        Instantiate(EndPortal, LevelEnd.transform.position, EndPortal.transform.rotation );
+        //sets alive to false so the end level object appears
+    }
 }
