@@ -41,7 +41,7 @@ public class HardEnemy : MonoBehaviour
             transform.position += Vector3.left * speed * Time.deltaTime;
         }
     }
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         //colliding with bullets
         if (other.gameObject.tag == "PlayerBullet")

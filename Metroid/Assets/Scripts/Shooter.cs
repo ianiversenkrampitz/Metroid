@@ -6,7 +6,7 @@ using UnityEngine;
 //controls the shooter enemy. 
 public class Shooter : MonoBehaviour
 {
-    public GameObject bullets;
+    public GameObject Laser;
     public float spawnRate = 1f;
     public float travelDistanceRight = 0;
     public float travelDistanceLeft = 0;
@@ -84,6 +84,6 @@ public class Shooter : MonoBehaviour
     }
     private void ShootLaser()
     {
-        GameObject laserInstance = Instantiate(bullets, transform.position, transform.rotation);
+        GameObject laserInstance = Instantiate(Laser, transform.position, transform.rotation);
     }
 }

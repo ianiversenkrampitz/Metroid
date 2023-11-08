@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     public bool lookingRight = true;
     private bool takesDamage = true;
     private bool canShoot = true;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -304,6 +304,10 @@ public class PlayerController : MonoBehaviour
 
         GameOverText.SetActive(true);
     }
+    /// <summary>
+    /// sets player invincible for 3 seconds 
+    /// </summary>
+    /// <returns></returns>
     IEnumerator SetInvincible()
     {
         takesDamage = false;
@@ -311,12 +315,20 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(3);
         takesDamage = true;
     }
+    /// <summary>
+    /// delays the player from spamming bullets
+    /// </summary>
+    /// <returns></returns>
     IEnumerator ShootDelay()
     {
         canShoot = false;
         yield return new WaitForSeconds(.2f);
         canShoot = true;
     }
+    /// <summary>
+    /// makes the player blink
+    /// </summary>
+    /// <returns></returns>
     IEnumerator Blink()
     {
         for (int index = 0; index < 30; index++)
