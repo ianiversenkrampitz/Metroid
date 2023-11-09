@@ -867,10 +867,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2133927378261439282, guid: ae86d9eeacdaaf144b34f2ec866b1f69, type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3961205958277646129, guid: ae86d9eeacdaaf144b34f2ec866b1f69, type: 3}
       propertyPath: Player
       value: 
       objectReference: {fileID: 107846682}
+    - target: {fileID: 5134564050137400547, guid: ae86d9eeacdaaf144b34f2ec866b1f69, type: 3}
+      propertyPath: m_Constraints
+      value: 124
+      objectReference: {fileID: 0}
     - target: {fileID: 7550605107852250156, guid: ae86d9eeacdaaf144b34f2ec866b1f69, type: 3}
       propertyPath: m_Name
       value: HardEnemy
