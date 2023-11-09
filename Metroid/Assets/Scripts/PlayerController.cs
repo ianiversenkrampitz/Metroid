@@ -185,6 +185,15 @@ public class PlayerController : MonoBehaviour
                     playerHealth = 199;
                 }
             }
+            else if (maxHealth >= 299)
+            {
+                playerHealth += 15;
+                //sets health to 199 if it goes over max health
+                if (playerHealth >= 299)
+                {
+                    playerHealth = 299;
+                }
+            }
             else if (maxHealth == 99)
             {
                 playerHealth += 15;
